@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+.card-event-perso{
+
+  background-color: white;
+  width: 100%;
+  height: 160px;
+  display: flex;
+  position: relative;
+  margin-top: 20px;
+  -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+  box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+  border-radius: 20px;
+
+  .ctn-favicone{
+    position: absolute;
+    background-color: rgb(211, 207, 230,0.5);
+    display: flex;
+    padding: 4px;
+    right:15px;
+    top:15px;
+    border-radius: 50%;
+    .favoriteIcon{
+      color: red;
+    }
+  }
+
+  .card-event-btn{
+    display: flex;
+    font-size: xx-small;
+    position: absolute;
+    right: 15px;
+    bottom: 8px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: gray;
+    font-weight: bold;
+
+    p{
+      margin-left: 15px;
+    }
+  }
+  
+
+  .card-event-perso-left{
+    img{
+      width: 160px;
+      height: 100%;
+      border-radius: 15px;
+      object-fit: cover;
+
+    }
+  }
+  .card-event-perso-right{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-right: 50px;
+    padding: 15px 15px 0 20px;
+
+    h2{
+      font-family: "DM Sans",sans-serif;
+      text-align:justify;
+      margin-top: 0;
+      font-size: medium;
+      color: rgb(52, 54, 65);
+      margin-bottom: 0;
+
+    }
+
+    .description{
+      font-size: xx-small;
+      text-align: justify;
+      margin: 0;
+      color: gray;
+    }
+
+    .card-event-info{
+      display: flex;
+      justify-content: space-between;
+
+      p{
+        display: flex;
+        font-size: xx-small;
+        color: rgb(105, 105, 105);
+        font-weight: bolder;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        align-items: center;
+
+
+        .card-icon{
+          font-size: small;
+          padding-right: 5px;
+        }
+      }
+
+      .card-event-date{
+        color: blueviolet;
+      }
+
+    }
+
+    .card-event-publisher{
+      display: flex;
+      justify-content:flex-start;
+      align-items: center;
+      position: absolute;
+      bottom: 10px;
+
+      img{
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .card-event-publisher-text{
+        display: flex;
+        flex-direction: column;
+        font-size: xx-small;
+        text-align: left;
+
+        span{
+          padding-left: 5px;
+          font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+          font-weight: bold;
+          color: rgb(52, 54, 65);
+        }
+
+        .card-publisher-time{
+          font-family:Verdana, Geneva, Tahoma, sans-serif;
+          font-weight: lighter;
+          font-size: 8px;
+          margin-top: 5px;
+        }
+
+      }
+    }
+
+  }
+
+}

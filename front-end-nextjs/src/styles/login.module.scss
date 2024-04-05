@@ -1,0 +1,188 @@
+$primary-color: #a774f8;
+$secondary-color: #f8f9fa;
+$error-color: #d93025;
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 991px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $secondary-color;
+
+  .card {
+    display: flex;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+
+    @include mobile {
+      flex-direction: column;
+    }
+
+    .left {
+      flex: 1;
+      background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)),
+        url("https://spunout.ie/wp-content/uploads/elementor/thumbs/social_anxiety-q0ubkaave28v02g7n6vwm69eg0d7weiuy3il3w5mew.jpg")
+          center;
+      background-size: cover;
+      padding: 30px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+      }
+
+      p {
+        margin-bottom: 20px;
+      }
+
+      span {
+        margin-bottom: 10px;
+      }
+
+      button {
+        background-color: white;
+        color: $primary-color;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.8);
+        }
+      }
+    }
+
+    .right {
+      flex: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      img {
+        max-width: 300px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+
+        input {
+          padding: 10px 15px;
+          font-size: 1rem;
+          margin-bottom: 10px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 4px;
+          outline: none;
+
+          &:focus {
+            border-color: $primary-color;
+          }
+        }
+      }
+      button {
+        background-color: $primary-color;
+        color: white;
+        border: none;
+        padding: 10px 0;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: darken($primary-color, 10%);
+        }
+      }
+
+      .google_btn {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
+ 
+      }
+    }
+  }
+}
+
+@include tablet {
+  .login {
+    .card {
+      .left {
+        h1 {
+          font-size: 2rem;
+        }
+      }
+
+      .right {
+        h1 {
+          font-size: 1.75rem;
+        }
+      }
+    }
+  }
+}
+
+@include mobile {
+  .login {
+    .card {
+      .left {
+        h1 {
+          font-size: 1.75rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+        }
+    
+        button {
+          font-size: 0.9rem;
+        }
+      }
+    
+      .right {
+        h1 {
+          font-size: 1.5rem;
+        }
+    
+        form {
+          input {
+            font-size: 0.9rem;
+          }
+    
+          button {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+}

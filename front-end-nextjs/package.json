@@ -1,0 +1,49 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:8000",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/material": "^5.15.14",
+    "@mui/material-nextjs": "^5.15.11",
+    "@project-serum/anchor": "^0.26.0",
+    "@solana-mobile/wallet-adapter-mobile": "^2.1.2",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-react-ui": "^0.9.35",
+    "@solana/wallet-adapter-wallets": "^0.19.32",
+    "@solana/web3.js": "^1.91.4",
+    "@taquito/beacon-wallet": "^19.1.0",
+    "@taquito/taquito": "^19.1.0",
+    "bs58": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "javascript-time-ago": "^2.5.9",
+    "next": "14.1.4",
+    "next-auth": "^4.24.7",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-google-button": "^0.7.2",
+    "react-password-checklist": "^1.5.1",
+    "react-time-ago": "^7.3.1",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "postcss": "^8",
+    "react-router-dom": "^6.13.0",
+    "sass": "^1.59.3",
+    "tailwindcss": "^3.3.0"
+  }
+}
