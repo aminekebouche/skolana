@@ -43,6 +43,8 @@ const PostSchema: Schema = new Schema({
         }
     ],
 
+    price: {type: Number},
+
     createdAt: { type: Date, default: Date.now }
 });
 

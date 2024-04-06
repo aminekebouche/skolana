@@ -43,7 +43,8 @@ function MyApp({ Component, pageProps }) {
   );
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      {/* <WalletProvider wallets={wallets} autoConnect> */}
+      <WalletProvider wallets={wallets} >
         <WalletModalProvider>
           <AuthContextProvider>
             <Layout>

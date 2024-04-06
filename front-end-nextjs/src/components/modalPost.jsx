@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { createPost } from "@/pages/api/api";
+import { AuthContext } from "../context/authContext";
 
 const DialogBox = ({ onClose, onCreatePost, onPost }) => {
   const [type, setType] = useState("");
   const [content, setContent] = useState("");
+  const [price, setPrice] = useState(0);
   const [file, setFile] = useState(null);
+
+  const { currentUser, onchaintUser, createPostOnChain } =
+    useContext(AuthContext);
 
   const handleOptionChange = (event) => {
     setType(event.target.value);
@@ -12,6 +17,10 @@ const DialogBox = ({ onClose, onCreatePost, onPost }) => {
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
+  };
+
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
   };
 
   const handleFileChange = (event) => {
@@ -24,6 +33,7 @@ const DialogBox = ({ onClose, onCreatePost, onPost }) => {
       const formData = new FormData();
       formData.append("content", content);
       formData.append("type", type);
+      formData.append("price", price);
       if (file) {
         formData.append("file", file);
       }
@@ -31,6 +41,9 @@ const DialogBox = ({ onClose, onCreatePost, onPost }) => {
       console.log(formData);
 
       const post = await createPost(formData);
+      const filename =
+        post.documents?.leghth > 0 ? post.documents[0] : "undefined";
+      await createPostOnChain(type, content, filename, price);
       onClose();
       onCreatePost();
       if (post) {
@@ -78,6 +91,16 @@ const DialogBox = ({ onClose, onCreatePost, onPost }) => {
               <input
                 type="file"
                 onChange={handleFileChange}
+                className="block w-full border border-gray-300 rounded px-4 py-2 mt-1 focus:outline-none focus:border-blue-500"
+              />
+            </label>
+          )}
+          {["Document", "Service"].includes(type) && (
+            <label className="block mb-4">
+              Price (in SKOL) :
+              <input
+                type="text"
+                onChange={handlePriceChange}
                 className="block w-full border border-gray-300 rounded px-4 py-2 mt-1 focus:outline-none focus:border-blue-500"
               />
             </label>

@@ -7,10 +7,15 @@ import { AuthContext } from "../../context/authContext";
 const CreatEvent = ({ onCreatePost }) => {
   const [showDialog, setShowDialog] = useState(false);
   const [isAlert, setIsAlert] = useState(null);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, onchaintUser, createPostOnChain } =
+    useContext(AuthContext);
   const [currentUserReady, setCurrentUserReady] = useState(false);
 
   const toggleDialog = () => {
+    if (!onchaintUser) {
+      alert("Connecter votre wallet !");
+      return;
+    }
     setShowDialog(!showDialog);
   };
 
@@ -20,9 +25,13 @@ const CreatEvent = ({ onCreatePost }) => {
     }
   }, [currentUser]);
 
+  const mess = "Success: Your post has been published !";
+
   return (
     <div className="flex bg-white my-5 p-5 rounded-xl h-800 w-300">
-      {isAlert && <Alert isAlert={isAlert} onPost={setIsAlert} />}
+      {isAlert && (
+        <Alert isAlert={isAlert} onPost={setIsAlert} message={mess} />
+      )}
       <Image
         src={currentUser?.avatar}
         alt="pdp"

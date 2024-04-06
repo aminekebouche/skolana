@@ -7,7 +7,7 @@ var multer = require('multer');
 
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { content, type } = req.body;
+        const { content, type, price } = req.body;
         console.log(req.body);
         const author = req.user;
         const documents: String[] = [];
@@ -18,7 +18,7 @@ const createPost = async (req: Request, res: Response, next: NextFunction) => {
             documents.push(filename);
         }
 
-        const post = await Post.create({ content, author, type, documents });
+        const post = await Post.create({ content, author, type, documents, price });
         res.status(200).json({ Message: 'File uploaded' });
     } catch (error) {
         res.status(500).json({ error: 'An error occurred while processing the PDF file.' });

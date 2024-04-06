@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useMemo } from "react";
+import React, { useContext, useState, useEffect, useMemo, use } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AuthContext } from "../../context/authContext";
@@ -10,11 +10,37 @@ import {
   useWallet,
   useAnchorWallet,
 } from "@solana/wallet-adapter-react";
-import { PublicKey, SystemProgram } from "@solana/web3.js";
+import {
+  PublicKey,
+  SystemProgram,
+  Transaction,
+  sendAndConfirmTransaction,
+  Keypair,
+  TransactionInstruction,
+  clusterApiUrl,
+  Connection,
+  LAMPORTS_PER_SOL,
+  confirmTransaction,
+} from "@solana/web3.js";
 import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
 import { utf8 } from "@project-serum/anchor/dist/cjs/utils/bytes";
 import * as anchor from "@project-serum/anchor";
 import idl from "../../pages/idl.json";
+import {
+  getAccount,
+  getMinimumBalanceForRentExemptMint,
+  createInitializeMintInstruction,
+  TOKEN_PROGRAM_ID,
+  AccountLayout,
+  createTransferInstruction,
+  createMint,
+  createAccount,
+  mintTo,
+  getOrCreateAssociatedTokenAccount,
+  createTransferCheckedInstruction,
+  transfer,
+  Token,
+} from "@solana/spl-token";
 
 const PROGRAM_KEY = new PublicKey(idl.metadata.address);
 const active = "bg-indigo active";
@@ -22,14 +48,15 @@ const API_URL =
   process.env.REACT_APP_API_URL || "http://localhost:8000" + "/uploads/";
 
 const Navbar = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, onchaintUser, updateOnchaintUser, showBalance } =
+    useContext(AuthContext);
   const router = useRouter();
   const isActive = (pathname) => router.pathname === pathname;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
   const { connection } = useConnection();
-  const { publicKey, sendTransaction } = useWallet();
+  const { publicKey, sendTransaction, wallet } = useWallet();
   const anchorWallet = useAnchorWallet();
 
   const program = useMemo(() => {
@@ -43,45 +70,111 @@ const Navbar = () => {
     }
   }, [connection, anchorWallet]);
 
-  const start = async () => {
-    console.log("START");
-    console.log(program);
-    if (program && publicKey) {
-      console.log("program");
-      console.log(program.programId);
-
-      try {
-        const [userPda] = await findProgramAddressSync(
-          [utf8.encode("user"), publicKey.toBuffer()],
-          program.programId
-        );
-        console.log(userPda.toJSON());
-        const user = await program.account.userAcount.fetch(userPda);
-        if (user) {
-          setInitialized(true);
-          setUser(user);
-          setLastPostId(user.lastPostId);
-          const postAccounts = await program.account.postAcount.all(
-            publicKey.toString()
-          );
-          setPosts(postAccounts);
-        }
-      } catch (error) {
-        console.log(error);
-        setInitialized(false);
-      }
-    }
-  };
-
   useEffect(() => {
     setIsLoggedIn(currentUser !== null && currentUser !== undefined);
   }, [currentUser]);
 
-  const show = async () => {
-    console.log(connection.rpcEndpoint);
-    await start();
-    if (publicKey) {
-      console.log(publicKey.toBase58());
+  useEffect(() => {
+    const start = async () => {
+      console.log(initialized);
+      console.log(program);
+      if (program && publicKey) {
+        console.log("program");
+        console.log(program.programId);
+
+        try {
+          const [userPda] = await findProgramAddressSync(
+            [utf8.encode("user"), publicKey.toBuffer()],
+            program.programId
+          );
+          console.log(userPda.toJSON());
+          const user = await program.account.userAcount.fetch(userPda);
+          console.log(user);
+          if (user) {
+            setInitialized(true);
+            updateOnchaintUser(user);
+            const postAccounts = await program.account.postAcount.all(
+              publicKey.toString()
+            );
+            //setPosts(postAccounts);
+          }
+        } catch (error) {
+          console.log(error);
+          setInitialized(false);
+        }
+      }
+    };
+
+    start();
+  }, [program, publicKey]);
+
+  const fetchBalance = async () => {
+    if (!publicKey) return;
+
+    try {
+      const publicKeyObj = new PublicKey(publicKey.toBuffer());
+      const balance = await connection.getBalance(publicKeyObj);
+      // Convertir la balance de lamports en SOL (1 SOL = 10^9 lamports)
+      const solBalance = balance / 1000000000;
+      console.log(solBalance);
+    } catch (error) {
+      console.error("Erreur lors de la récupération de la balance:", error);
+    }
+  };
+
+  const fetchTokenBalance = async () => {
+    if (!publicKey) return;
+
+    try {
+      const tokenAccountInfo = await getAccount(
+        connection,
+        new PublicKey("EKv5JdXx16j8XF1dQeikeo8au5eS6cuW3vSdERAZDRNJ")
+      );
+
+      console.log(tokenAccountInfo.amount);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération de la balance du token:",
+        error
+      );
+    }
+  };
+
+  const show2 = async () => {
+    try {
+      const t = await fetchTokenBalance();
+      console.log(t);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const initUser = async () => {
+    if (program && publicKey) {
+      try {
+        //setTransactionPending(true)
+        const [userPda] = findProgramAddressSync(
+          [utf8.encode("user"), publicKey.toBuffer()],
+          program.programId
+        );
+        const name = currentUser.firstname + currentUser.lastname;
+        const avatar = currentUser.avatar;
+
+        const user = await program.methods
+          .initUser(name, avatar)
+          .accounts({
+            userAccount: userPda,
+            authority: publicKey,
+            systemProgram: SystemProgram.programId,
+          })
+          .rpc();
+        console.log(user);
+        setInitialized(true);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        //setTransactionPending(false);
+      }
     }
   };
 
@@ -126,7 +219,7 @@ const Navbar = () => {
           >
             DocHub
           </Link>
-          <button onClick={show}>Show</button>
+          <button onClick={show2}>Show</button>
         </div>
 
         {isLoggedIn ? (
@@ -146,7 +239,18 @@ const Navbar = () => {
                 <ExpandMoreIcon className="p-1 text-icon-color hover:text-white" />
               </Link>
             </div>
-            <WalletMultiButton />
+            {!publicKey ? (
+              <WalletMultiButton />
+            ) : initialized ? (
+              <WalletMultiButton />
+            ) : (
+              <button
+                onClick={initUser}
+                className="p-2 m-2 bg-indigo text-white bg-primary rounded-md text-sm"
+              >
+                Associate user
+              </button>
+            )}
           </>
         ) : (
           <div className="flex mx-5">
