@@ -8,6 +8,7 @@ pub struct UserAcount {
     pub authority: Pubkey,
     pub last_post_id: u8,
     pub post_count: u8,
+    pub ine: String,
 }
 
 
