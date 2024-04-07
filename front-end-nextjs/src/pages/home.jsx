@@ -12,14 +12,10 @@ export default function Home() {
                 <span className="text-primary">Sko</span>lana
               </h1>
               <p className="text-2xl mb-9">
-                Centralisez votre vie étudiante et simplifiez votre parcours
-                universitaire.
+                Organize your student life and streamline your academic journey.
               </p>
               <p className="mb-6 text-xl">
-                {`Découvrez Daufinder, la plateforme qui révolutionne votre
-                expérience universitaire en centralisant cours, événements et
-                soutien étudiant. Simplifiez votre vie académique dès
-                aujourd'hui !`}
+                {`Discover Skolana, the platform that revolutionizes your university experience by centralizing courses, events, and student support. Simplify your academic life today!`}
               </p>
               <button className="mt-4 py-2 px-6 bg-primary text-white rounded shadow-lg hover:bg-primary-dark transition duration-300">
                 Découvrir
@@ -48,10 +44,9 @@ export default function Home() {
             />
           </div>
           <div className="lg:w-2/3 lg:pl-8">
-            <h1 className="text-5xl font-bold text-primary mb-6">Portail</h1>
+            <h1 className="text-5xl font-bold text-primary mb-6">Portal</h1>
             <p className="text-xl">
-              Centralisez votre vie étudiante et simplifiez votre parcours
-              universitaire.
+              Centralize your student life and simplify your university journey.
             </p>
           </div>
         </section>
@@ -60,8 +55,7 @@ export default function Home() {
           <div className="lg:w-2/3 lg:pr-8">
             <h1 className="text-5xl font-bold text-primary mb-6">DocHub</h1>
             <p className="text-xl">
-              Centralisez votre vie étudiante et simplifiez votre parcours
-              universitaire.
+              Centralize your student life and simplify your university journey.
             </p>
           </div>
           <div className="lg:w-1/2">

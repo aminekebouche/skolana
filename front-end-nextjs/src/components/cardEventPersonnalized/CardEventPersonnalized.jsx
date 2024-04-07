@@ -15,10 +15,10 @@ import Alert from "../Alert";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 const sentences = {
-  Service: "a proposé un service",
+  Service: "proposed a service",
   Document: (numberOfDoc) =>
-    `a partagé ${numberOfDoc} document${numberOfDoc > 1 ? "s" : ""}`,
-  Question: "a posé une question",
+    `shared ${numberOfDoc} document${numberOfDoc > 1 ? "s" : ""}`,
+  Question: "asked a question",
 };
 
 const CardEventPersonnalized = ({ event }) => {

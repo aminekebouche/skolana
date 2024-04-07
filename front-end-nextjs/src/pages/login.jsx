@@ -46,10 +46,10 @@ const Login = () => {
     <div className={styles.login}>
       <div className={styles.card}>
         <div className={styles.left}>
-          <h1>Bienvenue</h1>
+          <h1>Welcom</h1>
           <p>
-            Studycool, le réseau social des Étudiants. Centralisez votre vie
-            étudiante et simplifiez votre parcours universitaire.
+            Skolana, the social network for students. Centralize your student
+            life and simplify your university journey.
           </p>
           <span>Vous n'avez pas de compte ?</span>
           <Link href="/register">
@@ -80,11 +80,11 @@ const Login = () => {
           <button onClick={handleLogin} className={styles.signInButton}>
             SIGN IN
           </button>
-          <div className={styles.googleButton}>
+          {/* <div className={styles.googleButton}>
             <a href={`${API_URL}/user/auth/google`}>
               <GoogleButton type="light" />
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

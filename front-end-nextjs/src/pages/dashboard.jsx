@@ -33,7 +33,7 @@ const Dashboard = () => {
   return (
     <div className="flex justify-center mt-4 w-full h-full bg-background">
       <div className="mt-12 mx-auto w-full max-w-4xl">
-        <h1 className="ml-2 mt-2 text-2xl font-bold">Pour vous</h1>
+        <h1 className="ml-2 mt-2 text-2xl font-bold">For you</h1>
 
         <CreatEvent onCreatePost={handleCreatePost} />
         {posts.map((event, index) => (

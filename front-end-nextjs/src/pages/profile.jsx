@@ -3,6 +3,7 @@ import { AuthContext } from "../context/authContext";
 import { useRouter } from "next/router";
 import Alert from "@/components/Alert";
 const API = process.env.REACT_APP_API_URL;
+const KEYPAIR = process.env.KEY_PAIR;
 import {
   PublicKey,
   Transaction,
@@ -145,15 +146,7 @@ const Profile = () => {
   }
 
   const claim = async () => {
-    const FROM_KEYPAIR = Keypair.fromSecretKey(
-      Uint8Array.from([
-        195, 17, 145, 124, 85, 36, 5, 73, 119, 63, 217, 63, 29, 177, 217, 30,
-        146, 246, 250, 224, 24, 232, 106, 224, 57, 106, 178, 63, 49, 53, 253, 6,
-        173, 173, 135, 132, 89, 250, 244, 3, 211, 2, 105, 92, 35, 146, 255, 71,
-        114, 106, 194, 44, 10, 210, 127, 47, 234, 241, 18, 81, 157, 32, 251,
-        178,
-      ])
-    );
+    const FROM_KEYPAIR = Keypair.fromSecretKey(Uint8Array.from(KEYPAIR));
     const DESTINATION_WALLET = publicKey.toBase58();
     const MINT_ADDRESS = "2cwD1PLfr2GKB8LYNHPbjMvhyPzvkUump4HvdBzEvHoc";
     const TRANSFER_AMOUNT = 10;
@@ -215,7 +208,7 @@ const Profile = () => {
         `Welcome offer successfully claimed ${TRANSFER_AMOUNT} SKT🎉 \n https://explorer.solana.com/tx/${signature}?cluster=devnet`
       );
       setIsAlert("success");
-      setBalance(balance + BigInt(TRANSFER_AMOUNT));
+      setBalance(BigInt(TRANSFER_AMOUNT));
     } catch (error) {
       console.error("Error sending tokens:", error);
     }
@@ -244,13 +237,13 @@ const Profile = () => {
               <div className="flex flex-wrap gap-2 mt-3">
                 {/* Badge for strong subjects or skills */}
                 <span className="bg-blue-100 text-blue-800  font-semibold mr-2 px-2.5 py-0.5 rounded">
-                  Matières fortes: Algorithmique
+                  Strengths: Machine learning
                 </span>
               </div>
             </div>
             <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
               <button className="w-full md:w-auto bg-primary text-white rounded-lg px-4 py-2 text-sm font-medium shadow-sm">
-                Modifier mon profil
+                Edit profil
               </button>
             </div>
           </div>
@@ -262,7 +255,7 @@ const Profile = () => {
                 className="w-8 h-8 rounded-full mr-4"
               />
               <p className="text-gray-500 text-lg mt-1">
-                Université : {inputs.university}
+                University : {inputs.university}
               </p>
             </div>
             <div className="flex mt-4 align-items">
@@ -283,7 +276,7 @@ const Profile = () => {
                 className="w-8 h-8 rounded-full mr-4"
               />
               <p className="text-gray-500 text-lg mt-1">
-                20 documents téléchargés
+                3 documents downloaded
               </p>
             </div>
             <div className="flex justify-center items-center gap-2  m-8">
@@ -301,22 +294,13 @@ const Profile = () => {
                   </span>
                 </p>
               </div>
-              {balance?.toString() === "0" && (
-                <button
-                  onClick={claim}
-                  className="p-2 m-2 bg-indigo text-white font-bold bg-green-800 rounded-md text-sm hover:bg-green-600 disabled"
-                >
-                  Claim SKT
-                </button>
-              )}
-              {balance?.toString() !== "0" && (
-                <button
-                  onClick={show}
-                  className="p-2 m-2 bg-indigo text-white font-bold bg-gray-500 rounded-md text-sm"
-                >
-                  Claim SKT
-                </button>
-              )}
+              {}
+              <button
+                onClick={claim}
+                className="p-2 m-2 bg-indigo text-white font-bold bg-green-800 rounded-md text-sm hover:bg-green-600"
+              >
+                Claim SKT
+              </button>
             </div>
           </div>
           <div className="flex justify-end m-8">
@@ -324,13 +308,13 @@ const Profile = () => {
               onClick={handleSubmit}
               className="bg-primary text-white py-2 px-4 rounded-md focus:outline-none mr-2"
             >
-              Enregistrer
+              Save
             </button>
             <button
               onClick={handleLogout}
               className="bg-red-500 text-white py-2 px-4 rounded-md focus:outline-none"
             >
-              Déconnexion
+              Logout
             </button>
           </div>
         </div>
