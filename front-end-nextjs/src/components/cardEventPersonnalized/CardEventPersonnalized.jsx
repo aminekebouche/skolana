@@ -208,7 +208,7 @@ const CardEventPersonnalized = ({ event }) => {
       <div className="flex mt-4 flex-wrap">
         <div className="flex flex-1 gap-6 min-w-0 px-2">
           {event.documents.map((e, i) => (
-            <a href={downloadDoc()} download target="_blank">
+            <a href={downloadDoc()} key={i} download target="_blank">
               <DocPost filename={e} description={""} key={i} payed={payed} />
             </a>
           ))}

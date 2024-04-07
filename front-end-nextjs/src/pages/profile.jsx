@@ -3,7 +3,6 @@ import { AuthContext } from "../context/authContext";
 import { useRouter } from "next/router";
 import Alert from "@/components/Alert";
 const API = process.env.REACT_APP_API_URL;
-const KEYPAIR = process.env.KEY_PAIR;
 import {
   PublicKey,
   Transaction,
@@ -146,7 +145,15 @@ const Profile = () => {
   }
 
   const claim = async () => {
-    const FROM_KEYPAIR = Keypair.fromSecretKey(Uint8Array.from(KEYPAIR));
+    const FROM_KEYPAIR = Keypair.fromSecretKey(
+      Uint8Array.from([
+        195, 17, 145, 124, 85, 36, 5, 73, 119, 63, 217, 63, 29, 177, 217, 30,
+        146, 246, 250, 224, 24, 232, 106, 224, 57, 106, 178, 63, 49, 53, 253, 6,
+        173, 173, 135, 132, 89, 250, 244, 3, 211, 2, 105, 92, 35, 146, 255, 71,
+        114, 106, 194, 44, 10, 210, 127, 47, 234, 241, 18, 81, 157, 32, 251,
+        178,
+      ])
+    );
     const DESTINATION_WALLET = publicKey.toBase58();
     const MINT_ADDRESS = "2cwD1PLfr2GKB8LYNHPbjMvhyPzvkUump4HvdBzEvHoc";
     const TRANSFER_AMOUNT = 10;
@@ -265,8 +272,9 @@ const Profile = () => {
                 className="w-8 h-8 rounded-full mr-4"
               />
               <p className="text-gray-500 text-lg mt-1">
-                Master 2 Methodes informatiques appliquées à la gestion
-                d'entreprise
+                {
+                  "Master 2 Methodes informatiques appliquées à la gestiond'entreprise"
+                }
               </p>
             </div>
             <div className="flex mt-4 align-items">
