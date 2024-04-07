@@ -8,8 +8,8 @@ export default function Home() {
         <section className="text-center lg:text-left mt-24">
           <div className="py-16 lg:flex lg:items-center">
             <div className="lg:w-2/3 lg:pr-8">
-              <h1 className="text-6xl font-bold text-primary mb-6">
-                Studycool
+              <h1 className="text-6xl font-bold text-black mb-6">
+                <span className="text-primary">Sko</span>lana
               </h1>
               <p className="text-2xl mb-9">
                 Centralisez votre vie étudiante et simplifiez votre parcours

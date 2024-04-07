@@ -97,7 +97,7 @@ const DialogBox = ({ onClose, onCreatePost, onPost }) => {
           )}
           {["Document", "Service"].includes(type) && (
             <label className="block mb-4">
-              Price (in SKOL) :
+              Price (in SKT) :
               <input
                 type="text"
                 onChange={handlePriceChange}

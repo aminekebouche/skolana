@@ -16,7 +16,7 @@ const HomePage = (props) => {
 export const getServerSideProps = async (context) => {
   return {
     redirect: {
-      destination: '/dashboard',
+      destination: '/home',
       permanent: false, // This can be set to true if you want a permanent redirect (HTTP 301)
     },
   };

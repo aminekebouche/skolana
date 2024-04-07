@@ -13,7 +13,10 @@ export interface IUser extends Document {
     password: string;
     university: string;
     avatar: string;
+    publicKey: string;
+    docs : string[];
     generateAuthTokenAndSaveUser(): Promise<string>;
+    
 }
 
 const UserSchema: Schema = new Schema({
@@ -24,7 +27,14 @@ const UserSchema: Schema = new Schema({
     password: { type: String },
     university: { type: String },
     authToken: { type: String },
-    avatar: { type: String }
+    avatar: { type: String },
+    publicKey: {type: String},
+    docs: [
+        {
+            type: String
+        }
+    ],
+
 });
 
 UserSchema.methods.generateAuthTokenAndSaveUser = async function () {

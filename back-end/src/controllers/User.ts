@@ -72,6 +72,66 @@ const login = async (req: Request, res: Response) => {
     }
 };
 
+const update = async (req: Request, res: Response) => {
+    try {
+        const userToUpdate: any = req.user; 
+        const updates = req.body; 
+
+        console.log(updates)
+        console.log(userToUpdate)
+
+        const user: any = await User.findById(userToUpdate.id);
+
+        
+        
+        if (!user) {
+            res.status(403).json({
+                message: 'User not found!'
+            });
+        } else {
+            Object.keys(updates).forEach(key => {
+                user[key] = updates[key];
+            });
+
+            await user.save();
+
+        res.status(200).json({ message: 'User updated successfully.', user });
+           
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err });
+    }
+};
+
+const getsDocsPurchased = async (req: Request, res: Response) => {
+    try {
+        const userToUpdate: any = req.user; 
+
+        console.log(userToUpdate)
+
+        const user: any = await User.findById(userToUpdate.id);
+
+        
+        
+        if (!user) {
+            res.status(403).json({
+                message: 'User not found!'
+            });
+        } else {
+            
+
+            
+
+        res.status(200).json({ message: 'User updated successfully.', user });
+           
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err });
+    }
+};
+
 const logout = (req: Request, res: Response) => {
     res.clearCookie('authToken', {
         secure: true,
@@ -81,4 +141,4 @@ const logout = (req: Request, res: Response) => {
         .json('User has been logged out.');
 };
 
-export default { register, login, logout };
+export default { register, login, logout, update, getsDocsPurchased };

@@ -18,6 +18,8 @@ const Alert = ({ isAlert, onPost, message }) => {
       } else if (isAlert === "error") {
         setAlertType("bg-red-100");
         setAlertMessage("Error: Something went wrong");
+        const [firstLine, secondLine] = message.split("\n");
+        setFisrt(firstLine);
       }
 
       setIsVisible(true);

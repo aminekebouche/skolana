@@ -5,18 +5,11 @@ import Alert from "@/components/Alert";
 const API = process.env.REACT_APP_API_URL;
 import {
   PublicKey,
-  SystemProgram,
   Transaction,
   sendAndConfirmTransaction,
   Keypair,
-  TransactionInstruction,
 } from "@solana/web3.js";
 import {
-  getAccount,
-  getMinimumBalanceForRentExemptMint,
-  createInitializeMintInstruction,
-  TOKEN_PROGRAM_ID,
-  AccountLayout,
   createTransferInstruction,
   getOrCreateAssociatedTokenAccount,
 } from "@solana/spl-token";
@@ -162,7 +155,7 @@ const Profile = () => {
       ])
     );
     const DESTINATION_WALLET = publicKey.toBase58();
-    const MINT_ADDRESS = "CF3dQAz62C4QhAuNxQjgs14wygPPRkhdgYaBFFBQfNWp";
+    const MINT_ADDRESS = "2cwD1PLfr2GKB8LYNHPbjMvhyPzvkUump4HvdBzEvHoc";
     const TRANSFER_AMOUNT = 10;
 
     try {
@@ -296,20 +289,34 @@ const Profile = () => {
             <div className="flex justify-center items-center gap-2  m-8">
               <div className="bg-gray-100 rounded-xl px-4 py-1 inline-flex items-center">
                 <img
-                  src="/avatar.png"
+                  src="/skt.png"
                   alt="profile"
                   className="w-12 h-12 rounded-full mr-3 bg-green-500"
                 />
                 <p className="text-gray-700 text-lg font-bold">
-                  Your Balance : {balance?.toString() || 0} SKOL
+                  Your Balance :{" "}
+                  <span className="text-pink-600">
+                    {" "}
+                    {balance?.toString() || 0} SKT
+                  </span>
                 </p>
               </div>
-              <button
-                onClick={claim}
-                className="p-2 m-2 bg-indigo text-white font-bold bg-green-800 rounded-md text-sm"
-              >
-                Claim SKOL
-              </button>
+              {balance?.toString() === "0" && (
+                <button
+                  onClick={claim}
+                  className="p-2 m-2 bg-indigo text-white font-bold bg-green-800 rounded-md text-sm hover:bg-green-600 disabled"
+                >
+                  Claim SKT
+                </button>
+              )}
+              {balance?.toString() !== "0" && (
+                <button
+                  onClick={show}
+                  className="p-2 m-2 bg-indigo text-white font-bold bg-gray-500 rounded-md text-sm"
+                >
+                  Claim SKT
+                </button>
+              )}
             </div>
           </div>
           <div className="flex justify-end m-8">

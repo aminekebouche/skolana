@@ -12,7 +12,12 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@metaplex-foundation/mpl-candy-machine": "^6.0.1",
+        "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
+        "@metaplex-foundation/umi": "^0.9.1",
+        "@metaplex-foundation/umi-bundle-defaults": "^0.9.1",
         "@mui/lab": "^5.0.0-alpha.134",
+        "@solana/spl-token": "^0.4.3",
         "@testing-library/react": "^14.0.0",
         "@testing-library/user-event": "^14.4.3",
         "@types/jsonwebtoken": "^9.0.2",

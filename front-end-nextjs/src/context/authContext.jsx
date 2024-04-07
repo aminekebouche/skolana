@@ -116,6 +116,26 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const updateUser = async (inputs) => {
+    const response = await fetch(API_URL + "/user/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(inputs),
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const user = await response.json();
+      //setCurrentUser(user);
+      console.log(user?.docs);
+      return true;
+    } else {
+      const error = await response.json();
+      console.log(error);
+      return false;
+    }
+  };
+
   const allUsers = async () => {
     const response = await fetch(API_URL + `/user/all/${currentUser?._id}`, {
       method: "GET",
@@ -221,10 +241,14 @@ export const AuthContextProvider = ({ children }) => {
       tokenAccounts.value.forEach((tokenAccount) => {
         const accountData = AccountLayout.decode(tokenAccount.account.data);
         const balance = accountData.amount / BigInt(1000000000); // Divisez par 1 milliard
-        balances.push(balance); // Ajoutez le solde au tableau
+        if (
+          new PublicKey(accountData.mint).toBase58() ===
+          "2cwD1PLfr2GKB8LYNHPbjMvhyPzvkUump4HvdBzEvHoc"
+        ) {
+          balances.push(balance); // Ajoutez le solde au tableau
+        }
         console.log("tooooooooooz");
         console.log(balances);
-
         console.log(`${new PublicKey(accountData.mint)}   ${balance}`);
         console.log(tokenAccount.pubkey.toBase58());
       });
@@ -258,6 +282,7 @@ export const AuthContextProvider = ({ children }) => {
         showPub,
         createPostOnChain,
         showBalance,
+        updateUser,
       }}
     >
       {children}

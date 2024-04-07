@@ -10,36 +10,15 @@ import {
   useWallet,
   useAnchorWallet,
 } from "@solana/wallet-adapter-react";
-import {
-  PublicKey,
-  SystemProgram,
-  Transaction,
-  sendAndConfirmTransaction,
-  Keypair,
-  TransactionInstruction,
-  clusterApiUrl,
-  Connection,
-  LAMPORTS_PER_SOL,
-  confirmTransaction,
-} from "@solana/web3.js";
+import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
 import { utf8 } from "@project-serum/anchor/dist/cjs/utils/bytes";
 import * as anchor from "@project-serum/anchor";
 import idl from "../../pages/idl.json";
 import {
   getAccount,
-  getMinimumBalanceForRentExemptMint,
-  createInitializeMintInstruction,
-  TOKEN_PROGRAM_ID,
-  AccountLayout,
   createTransferInstruction,
-  createMint,
-  createAccount,
-  mintTo,
   getOrCreateAssociatedTokenAccount,
-  createTransferCheckedInstruction,
-  transfer,
-  Token,
 } from "@solana/spl-token";
 
 const PROGRAM_KEY = new PublicKey(idl.metadata.address);
@@ -48,15 +27,20 @@ const API_URL =
   process.env.REACT_APP_API_URL || "http://localhost:8000" + "/uploads/";
 
 const Navbar = () => {
-  const { currentUser, onchaintUser, updateOnchaintUser, showBalance } =
-    useContext(AuthContext);
+  const {
+    currentUser,
+    onchaintUser,
+    updateOnchaintUser,
+    showBalance,
+    updateUser,
+  } = useContext(AuthContext);
   const router = useRouter();
   const isActive = (pathname) => router.pathname === pathname;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
   const { connection } = useConnection();
-  const { publicKey, sendTransaction, wallet } = useWallet();
+  const { publicKey, signTransaction, wallet } = useWallet();
   const anchorWallet = useAnchorWallet();
 
   const program = useMemo(() => {
@@ -108,42 +92,10 @@ const Navbar = () => {
     start();
   }, [program, publicKey]);
 
-  const fetchBalance = async () => {
-    if (!publicKey) return;
-
-    try {
-      const publicKeyObj = new PublicKey(publicKey.toBuffer());
-      const balance = await connection.getBalance(publicKeyObj);
-      // Convertir la balance de lamports en SOL (1 SOL = 10^9 lamports)
-      const solBalance = balance / 1000000000;
-      console.log(solBalance);
-    } catch (error) {
-      console.error("Erreur lors de la récupération de la balance:", error);
-    }
-  };
-
-  const fetchTokenBalance = async () => {
-    if (!publicKey) return;
-
-    try {
-      const tokenAccountInfo = await getAccount(
-        connection,
-        new PublicKey("EKv5JdXx16j8XF1dQeikeo8au5eS6cuW3vSdERAZDRNJ")
-      );
-
-      console.log(tokenAccountInfo.amount);
-    } catch (error) {
-      console.error(
-        "Erreur lors de la récupération de la balance du token:",
-        error
-      );
-    }
-  };
-
   const show2 = async () => {
     try {
-      const t = await fetchTokenBalance();
-      console.log(t);
+      //const t = await claim();
+      //console.log(wallet);
     } catch (err) {
       console.log(err);
     }
@@ -170,6 +122,7 @@ const Navbar = () => {
           .rpc();
         console.log(user);
         setInitialized(true);
+        await updateUser({ publicKey: publicKey.toBase58() });
       } catch (error) {
         console.log(error);
       } finally {
@@ -181,10 +134,13 @@ const Navbar = () => {
   return (
     <div className="flex items-center justify-between bg-white w-full h-14 fixed top-0 z-50">
       <div className="flex items-center pl-4">
-        <div className="logo">
+        <div className="logo flex items-center ">
           <Link href="">
-            <Image src="/Studycool.svg" alt="logo" width="121" height="30" />
+            <Image src="/skt.png" alt="logo" width="50" height="50" />
           </Link>
+          <p className="text-black font-bold text-xl">
+            <span className="text-pink-500">Sko</span>lana
+          </p>
         </div>
       </div>
       <div className="flex items-center pl-4">
@@ -197,7 +153,7 @@ const Navbar = () => {
                 : ""
             }
           >
-            Accueil
+            Welcome
           </Link>
           <Link
             href="/dashboard"
@@ -207,7 +163,7 @@ const Navbar = () => {
                 : ""
             }
           >
-            Portail
+            Portal
           </Link>
           <Link
             href="/dochub"
@@ -217,9 +173,19 @@ const Navbar = () => {
                 : ""
             }
           >
-            DocHub
+            My docs
           </Link>
-          <button onClick={show2}>Show</button>
+          <Link
+            href="/learn"
+            className={
+              isActive("/learn")
+                ? "text-primary font-bold underline underline-offset-8"
+                : ""
+            }
+          >
+            Learn
+          </Link>
+          {/* <button onClick={show2}>Show</button> */}
         </div>
 
         {isLoggedIn ? (
