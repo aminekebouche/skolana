@@ -51,7 +51,6 @@ const Login = () => {
             Skolana, the social network for students. Centralize your student
             life and simplify your university journey.
           </p>
-          <span>{"Vous n avez pas de compte ?"}</span>
           <Link href="/register">
             <button className={styles.signUpButton}>SIGN UP</button>
           </Link>
